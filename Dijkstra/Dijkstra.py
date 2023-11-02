@@ -52,6 +52,6 @@ for k in range(num_nodes):
             if edge[1] == index:
                 distances[edge[0]] = min(distances[edge[0]], min_dist + edge[2])  # 거리를 업데이트
 
-    for i in range(k):
+    for i in range(k+1):
         distances[i] = ' '  # 시작 노드 이전의 노드에 대한 자리 표시자
     print(distances)  # 시작 노드에서 다른 모든 노드까지의 거리를 출력
