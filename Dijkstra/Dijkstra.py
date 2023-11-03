@@ -1,9 +1,12 @@
 import sys
+import time
 
-max_value = sys.maxsize
+start = time.time()  # 실행 시작 시간 기록
+
+max_value = sys.maxsize  # 무한대 값으로 사용할 최대 정수값
 
 num_nodes = 10  # 그래프의 노드 수
-graph = [10, 14] 
+graph = [10, 14]  # (사용하지 않는 것으로 보이는) 그래프 속성
 edges = [
     [0, 1, 15], 
     [1, 2, 21],
@@ -21,17 +24,18 @@ edges = [
     [7, 9, 5]
 ]
 
-
-
+# 각 노드에서 다른 모든 노드까지의 최단 거리를 계산
 for k in range(num_nodes):
 
     distances = [max_value] * num_nodes  # 모든 노드에 대한 거리를 무한대로 초기화
     distances[k] = 0  # 시작 노드까지의 거리를 0으로 설정
     visited = [False] * num_nodes  # 방문한 노드를 추적하기 위한 목록 초기화
 
+    # 방문하지 않은 노드가 있는지 확인하는 함수
     def check():
-        return any(not visited[i] for i in range(num_nodes))  # 방문하지 않은 노드가 있는지 확인
+        return any(not visited[i] for i in range(num_nodes))
 
+    # 최소 거리를 가진 노드를 찾는 함수
     def min_distance():
         min_dist = max_value
         index = -1
@@ -40,7 +44,7 @@ for k in range(num_nodes):
             if not visited[i] and distances[i] < min_dist:
                 index = i
                 min_dist = distances[i]
-        return min_dist, index  # 최소 거리를 가진 노드를 찾음
+        return min_dist, index
 
     while check():
         min_dist, index = min_distance()  # 최소 거리를 가진 노드를 찾음
@@ -52,6 +56,9 @@ for k in range(num_nodes):
             if edge[1] == index:
                 distances[edge[0]] = min(distances[edge[0]], min_dist + edge[2])  # 거리를 업데이트
 
-    for i in range(k+1):
+    for i in range(k + 1):
         distances[i] = ' '  # 시작 노드 이전의 노드에 대한 자리 표시자
     print(distances)  # 시작 노드에서 다른 모든 노드까지의 거리를 출력
+
+end = time.time()
+print("실행 시간:", (end - start)*1000)
