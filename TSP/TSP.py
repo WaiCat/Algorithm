@@ -1,42 +1,37 @@
 import math
 import heapq
 
+# 초기화
 heap = []
-
 points = [[0, 3], [7, 5], [6, 0], [4, 3], [1, 0], [5, 3], [2, 2], [4, 1]]
+num_vertices, num_edges = len(points), len(points) * (len(points) - 1) // 2
+adjacency_list = [[] for _ in range(num_vertices)]  # 정점의 이웃 정보를 저장하는 리스트
+minimum_spanning_tree = []  # 최소 신장 트리를 구성하는 간선들의 리스트
 
-def calculate_distance(x1, y1, x2, y2):
-    distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+# 거리 계산 함수
+def calculate_distance(a, b):
+    x1, x2 = a[0], b[0]
+    y1, y2 = a[1], b[1]
+    distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
     return distance
 
+# 방문 순서 설정 함수
 def set_visit_order(start):
-    while minimum_spanning_tree is not None:
+    l = len(minimum_spanning_tree)
+    for _ in range(l):
         for tree in minimum_spanning_tree:
-            if(tree[0] == start):
+            if tree[0] == start:
                 MST.append(tree[1])
+                minimum_spanning_tree.remove(tree)
                 set_visit_order(tree[1])
                 break
-                
-            elif(tree[1]== start):
+            elif tree[1] == start:
                 MST.append(tree[0])
+                minimum_spanning_tree.remove(tree)
                 set_visit_order(tree[0])
                 break
 
-distances = []
-
-
-for i in range(len(points)):
-    for j in range(i+1, len(points)):
-        distances.append((calculate_distance(points[i][0], points[i][1], points[j][0], points[j][1]), i, j))
-
-num_vertices, num_edges = len(points), len(distances)
-
-for i in range(len(distances)):
-    heapq.heappush(heap , distances[i])
-
-adjacency_list = [[] for _ in range(num_vertices)]
-minimum_spanning_tree = []
-
+# 간선의 사이클 여부 확인 함수
 def is_cycle(s, e, visited):
     visited.append(s)
     if e in adjacency_list[s]:
@@ -47,10 +42,19 @@ def is_cycle(s, e, visited):
                 return True
     return False
 
+# 거리 계산 및 heap 초기화
+distances = []
+for i in range(len(points)):
+    for j in range(i + 1, len(points)):
+        distances.append((calculate_distance(points[i], points[j]), i, j))
+
+for i in range(len(distances)):
+    heapq.heappush(heap, distances[i])
+
+# 최소 신장 트리 생성
 for i in range(num_edges):
     edge = heapq.heappop(heap)
-    start = edge[1]
-    end = edge[2]
+    start, end = edge[1], edge[2]
     visited = []
     if not is_cycle(start, end, visited):
         adjacency_list[start].append(end)
@@ -61,6 +65,14 @@ for i in range(num_edges):
 
 MST = [0]
 
+# 방문 순서 설정 및 거리 합산
 set_visit_order(0)
+total_distance = 0
+index = 0
+for i in MST:
+    index = (index + 1) % len(MST)
+    j = MST[index]
+    total_distance += calculate_distance(points[i], points[j])
 
-print(MST)
+print("Visit Order:", MST)
+print("Total Distance:", total_distance)
