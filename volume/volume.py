@@ -1,6 +1,8 @@
 import os
 import csv
 import numpy as np
+import itertools
+import time
 
 def read_csv_file(file_path):
     data = []
@@ -12,8 +14,18 @@ def read_csv_file(file_path):
             data.append(row)
     return data
 
-def transpose_matrix(matrix):
-    return list(map(list, zip(*matrix)))
+def calculate_determinant(combination):
+    tmp = np.array(combination)
+    tmp_t = np.transpose(tmp)
+    return np.sqrt(abs(np.linalg.det(np.dot(tmp_t, tmp))))
+
+def combination(i,data):
+    max_determinant_value = 0
+    for j in range(len(data)-i):
+        combinations_result = data[j:j+i]
+        det_value = calculate_determinant(combinations_result)
+        max_determinant_value = max(max_determinant_value, det_value)
+    return max_determinant_value
 
 # 현재 스크립트 파일의 폴더 경로
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -23,32 +35,35 @@ file_path = current_script_directory + '\\input.csv'
 # CSV 파일 읽기
 csv_data = read_csv_file(file_path)
 
-max_value = []
-for i in range(20):
-    max_value.append(max(csv_data[i]))
+csv_data = np.array(csv_data)
+csv_data = csv_data.astype(float)
+csv_data = np.transpose(csv_data)
 
-hd = []
+start_time = time.time()  # 시작 시간 기록
 
-print(max_value)
+final_result = 0
 
-for i in range(20):
-    num =csv_data[i].index(max_value[i])
-    tem = []
-    for j in range(20):
-        tem.append(csv_data[j][num])
-    hd.append(tem)
-    
-print(hd)
+# row_sums = [(sum(row), row) for row in csv_data]
 
-hd = np.array(hd)
-hd = hd.astype(float)
-determinant_value = np.linalg.det(hd)
+# # 정렬을 직접 구현
+# def custom_sort(arr):
+#     n = len(arr)
+#     for i in range(n - 1):
+#         for j in range(0, n - i - 1):
+#             if arr[j][0] < arr[j + 1][0]:
+#                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-print(determinant_value)
-# # 행열을 반대로 저장
-# transposed_data = transpose_matrix(csv_data)
+# # 정렬 함수 적용
+# custom_sort(row_sums)
+# row_sums = np.array(row_sums)
+# row_sums = row_sums.astype(float)
 
-# # 결과 출력
-# for row in transposed_data:
-    
-#     print(row)
+for i in range(1000, 1100):
+    final_result = combination(i, csv_data)
+#seconde_result = combination(1000, row_sums)
+
+end_time = time.time()  # 종료 시간 기록
+elapsed_time = end_time - start_time  # 경과 시간 계산
+
+print(f"코드 실행 시간: {elapsed_time} 초")
+print(final_result)

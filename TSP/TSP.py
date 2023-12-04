@@ -16,7 +16,7 @@ def calculate_distance(a, b): # 두점사이의 거리를 계산함
     return distance
 
 # 방문 순서 설정 함수 # 재귀함수 사용
- def set_visit_order(start): # 0에서 시작해서 다음점과 연결된 점들을 찾고 경로를 설정함
+def set_visit_order(start): # 0에서 시작해서 다음점과 연결된 점들을 찾고 경로를 설정함
     l = len(minimum_spanning_tree)
     for _ in range(l):
         for tree in minimum_spanning_tree:
@@ -66,12 +66,17 @@ for i in range(num_edges):
 MST = [0]
 
 set_visit_order(0) # 방문 순서 결정
+MST.append(0)
 total_distance = 0
 index = 0
-for i in MST: # 결정된 방문 순서에 따른 점사이의 거리 합산
-    index = (index + 1) % len(MST) 
-    j = MST[index]
-    total_distance += calculate_distance(points[i], points[j])
-
-print("Visit Order:", MST)
+for i in range(len(MST)-1): # 결정된 방문 순서에 따른 점사이의 거리 합산
+    a = MST[i]
+    b = MST[i+1]
+    total_distance += calculate_distance(points[a], points[b])
+    
+answer = []
+for i in MST:
+    answer.append(chr(65 + i))
+    
+print("Visit Order: ", answer)
 print("Total Distance:", total_distance)
