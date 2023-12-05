@@ -58,7 +58,7 @@ final_result = 0
 # row_sums = np.array(row_sums)
 # row_sums = row_sums.astype(float)
 
-for i in range(1000, 1100):
+for i in range(1000, 1500):
     final_result = combination(i, csv_data)
 #seconde_result = combination(1000, row_sums)
 
