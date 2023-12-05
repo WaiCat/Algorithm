@@ -43,24 +43,8 @@ start_time = time.time()  # 시작 시간 기록
 
 final_result = 0
 
-# row_sums = [(sum(row), row) for row in csv_data]
-
-# # 정렬을 직접 구현
-# def custom_sort(arr):
-#     n = len(arr)
-#     for i in range(n - 1):
-#         for j in range(0, n - i - 1):
-#             if arr[j][0] < arr[j + 1][0]:
-#                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-
-# # 정렬 함수 적용
-# custom_sort(row_sums)
-# row_sums = np.array(row_sums)
-# row_sums = row_sums.astype(float)
-
 for i in range(1000, 1500):
     final_result = combination(i, csv_data)
-#seconde_result = combination(1000, row_sums)
 
 end_time = time.time()  # 종료 시간 기록
 elapsed_time = end_time - start_time  # 경과 시간 계산
