@@ -1,24 +1,24 @@
-# 주어진 배열
-matrix = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
+import numpy as np
+
+tmp = [
+    [1.057572462, 0.091304574, -1.941189358, 1.205990718, 1.184936214,
+    -0.0301019545, -0.0371822811, -1.23704029, -0.281044413, -1.620192061,
+    0.342326076, -0.869798621, -0.350382765, -0.406814212, -0.943408091,
+    1.024983718, -0.286866942, -1.518435212, 1.314715713, 1.23136462],
+    [0.139216337, 0.312966591, 0.634361253, 0.637731726, -0.147368595,
+    -0.0756256904, 0.244456388, -0.171410468, -0.69465666, 1.006488278,
+    0.909722485, 0.43884704, 1.412876138, 0.681612309, -0.496465006,
+    -1.191262983, 0.523378491, 0.608165799, -1.068301165, -0.0252068902]
 ]
 
-# 각 행의 합을 계산하고 (행의 합, 해당 행)의 튜플로 구성된 리스트 생성
-row_sums = [(sum(row), row) for row in matrix]
+tmp = np.array(tmp)
+tmp_t = np.transpose(tmp)
+result = np.dot(tmp_t, tmp)
 
-# 정렬을 직접 구현
-def custom_sort(arr):
-    n = len(arr)
-    for i in range(n - 1):
-        for j in range(0, n - i - 1):
-            if arr[j][0] < arr[j + 1][0]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+# det_result = np.linalg.det(result)
+# print(det_result)
+# print(np.sqrt(abs(det_result)))
 
-# 정렬 함수 적용
-custom_sort(row_sums)
-
-# 정렬된 결과 출력
-for _, row in row_sums:
-    print(row)
+matrix_product = np.dot(tmp, tmp_t)
+determinant_a = np.sqrt(abs(np.linalg.det(matrix_product)))
+print(determinant_a)
