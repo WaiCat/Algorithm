@@ -2,10 +2,6 @@ import pandas as pd
 import numpy as np
 import time
 
-def read_matrix_from_csv(file_path):
-    
-    return transposed_matrix
-
 def find_max_determinant(matrix):
     max_value = -1
     max_indexs = []
@@ -20,6 +16,7 @@ def find_max_determinant(matrix):
                 tmp_rows = max_rows.copy()
                 tmp_rows.insert(0, matrix[j])
                 arr = np.array(tmp_rows)
+                print(arr)
                 size = np.dot(arr, np.transpose(arr))
                 det = np.sqrt(abs(np.linalg.det(size)))
 
@@ -34,16 +31,16 @@ def find_max_determinant(matrix):
 
     return max_value
 
-start_time = time.thread_time_ns()
+start_time = time.time()
 
 file_path = "volume/input.csv"
-df = pd.read_csv(file_path)
-matrix = np.transpose(np.array(df))
+csv_data = pd.read_csv(file_path)
+matrix = np.transpose(np.array(csv_data))
 
 max_determinant = find_max_determinant(matrix)
 
-end_time = time.thread_time_ns()
+end_time = time.time()
 elapsed_time = (end_time - start_time)
 
-print("소요된 시간: {:.2f} 마이크로초".format(elapsed_time))
+print("소요된 시간: {:.2f} 초".format(elapsed_time))
 print("최대 값: {:.2f}".format(max_determinant))
