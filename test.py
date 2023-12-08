@@ -1,73 +1,49 @@
 import pandas as pd
 import numpy as np
 import time
-from itertools import combinations 
 
+def read_matrix_from_csv(file_path):
+    
+    return transposed_matrix
 
-
-def get_matrix(path):
-    df = pd.read_csv(path) # Matrix Read 
-    df = np.array(df).T # Matrix Transpose 
-    return df
-
-def find_max(mat):
+def find_max_determinant(matrix):
     max_value = -1
-    max_idx = list()
-    max_li = list()
-    for i in range(10000):
-        if(len(max_idx) == 20):
-            break
-        find_max = -1
+    max_indexs = []
+    max_rows = []
+
+    for _ in range(20):
+        find_max_index = -1
         find_max_value = max_value
+
         for j in range(10000):
-            if j not in max_idx:
-                tmp_li = max_li.copy()
-                tmp_li.insert(0, mat[j])
-                arr = np.array(tmp_li)
-                size = np.dot(arr, arr.T)
-                det = abs(np.linalg.det(size))
-                det = det **(1/2)
+            if j not in max_indexs:
+                tmp_rows = max_rows.copy()
+                tmp_rows.insert(0, matrix[j])
+                arr = np.array(tmp_rows)
+                size = np.dot(arr, np.transpose(arr))
+                det = np.sqrt(abs(np.linalg.det(size)))
+
                 if det > find_max_value:
-                    find_max_value = det 
-                    find_max = j
-        if find_max != -1:
-            max_idx.insert(0, find_max)
-            max_li.insert(0, mat[find_max])
+                    find_max_value = det
+                    find_max_index = j
+
+        if find_max_index != -1:
+            max_indexs.insert(0, find_max_index)
+            max_rows.insert(0, matrix[find_max_index])
             max_value = find_max_value
-            print(max_value, max_idx)
-            
 
-    return max_value, max_idx, max_li
+    return max_value
 
-## 계산식
-# arr = np.array(tmp_li)
-# size = np.dot(arr, arr.T)
-# det = abs(np.linalg.det(size))
-# det = det **(1/2)
+start_time = time.thread_time_ns()
 
-max_row = []
+file_path = "volume/input.csv"
+df = pd.read_csv(file_path)
+matrix = np.transpose(np.array(df))
 
-def calculate_determinant(combination):
-    tmp = np.array(combination)
-    tmp_t = np.transpose(tmp)
-    return np.sqrt(abs(np.linalg.det(np.dot(tmp, tmp_t))))
+max_determinant = find_max_determinant(matrix)
 
-if __name__ == "__main__":
-    start = time.thread_time_ns()
-    path = "volume/input.csv"
-    mat = get_matrix(path)
-    max_value, max_index, max_list = find_max(mat)
-    max_list = np.array(max_list)
-    for i in range(20):
-        max_index = np.argmax(max_list[:, i])
-        max_row.append(max_list[max_index, :])
-    print(max_list)
-    print(max_row)
-    print(calculate_determinant(max_row))
-    end = time.thread_time_ns()
-    times = (end-start)/1000
-    print(times)
-    print(max_value / times)
-    volume = 796727301049202.6
-    print(max_value-volume)
+end_time = time.thread_time_ns()
+elapsed_time = (end_time - start_time)
 
+print("소요된 시간: {:.2f} 마이크로초".format(elapsed_time))
+print("최대 값: {:.2f}".format(max_determinant))
