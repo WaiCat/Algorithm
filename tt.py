@@ -20,10 +20,11 @@ for iteration in range(20):
     current_max_det = max_det_value
     for j in range(10000):
         if j not in selected_indices:
-            # 선택된 행 추가
-            current_indices = list(selected_indices) + [j]
-            current_matrix = input_data[current_indices]
-
+            # 선택된 행렬에 현재 행 추가
+            current_matrix = selected_matrices.copy()
+            current_matrix.append(input_data[j])
+            current_matrix = np.array(current_matrix)
+            
             # 행렬의 내적 계산
             dot_value = np.dot(current_matrix, current_matrix.T)
             # 행렬식 계산
@@ -37,6 +38,7 @@ for iteration in range(20):
     # 선택된 행 추가 및 최대 행렬식 값 갱신
     if max_index != -1:
         selected_indices.add(max_index)
+        selected_matrices.append(input_data[max_index])
         max_det_value = current_max_det
 
 end_time = time.time()
