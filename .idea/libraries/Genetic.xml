@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Genetic">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Genetic/Genetic.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

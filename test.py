@@ -1,22 +1,29 @@
-def find_duplicate_index(arr, n):
-    value = arr[n]
-    try:
-        duplicate_index = arr.index(value, 0, n)  # n 이전 부분에서 중복 찾기
-        return duplicate_index
-    except ValueError:
-        try:
-            duplicate_index = arr.index(value, n + 1)  # n 이후 부분에서 중복 찾기
-            return duplicate_index
-        except ValueError:
-            return False
+def flatten_3x3_blocks(matrix):
+    blocks = []
+    # 각 3x3 블록을 추출하고 평탄화
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            # 3x3 블록을 추출하고 평탄화
+            flattened_block = [num for row in matrix[i:i+3] for num in row[j:j+3]]
+            blocks.append(flattened_block)
+    return blocks
 
-# 예제 사용
-my_list = [1, 2, 3, 4, 5, 1, 6, 1, 7]
-n = 5# 예를 들어, 배열에서 2번째 값은 3입니다.
+# 예시: 9x9 행렬
+matrix = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [4, 5, 6, 7, 8, 9, 1, 2, 3],
+    [7, 8, 9, 1, 2, 3, 4, 5, 6],
+    [9, 1, 2, 3, 4, 5, 6, 7, 8],
+    [3, 4, 5, 6, 7, 8, 9, 1, 2],
+    [6, 7, 8, 9, 1, 2, 3, 4, 5],
+    [8, 9, 1, 2, 3, 4, 5, 6, 7],
+    [2, 3, 4, 5, 6, 7, 8, 9, 1],
+    [5, 6, 7, 8, 9, 1, 2, 3, 4]
+]
 
-first_duplicate_index = find_duplicate_index(my_list, n)
+# 3x3 블록 추출 및 평탄화
+flattened_blocks = flatten_3x3_blocks(matrix)
 
-if first_duplicate_index is not None:
-    print(f"{n}번째 값과 중복된 값의 첫 번째 인덱스는 {first_duplicate_index}입니다.")
-else:
-    print(f"{n}번째 값에 중복된 값이 없습니다.")
+# 결과 출력
+for index, block in enumerate(flattened_blocks):
+    print(f"Flattened Block {index + 1}: {block}")
