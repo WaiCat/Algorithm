@@ -1,4 +1,4 @@
-package Algorithm.LeetCode;
+package Algorithm.LeetCode.Week01;
 
 public class TwoSumII {
     public static void main(String[] args) {

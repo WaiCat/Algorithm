@@ -1,4 +1,4 @@
-package Algorithm.LeetCode;
+package Algorithm.LeetCode.Week01;
 
 import java.util.Arrays;
 
